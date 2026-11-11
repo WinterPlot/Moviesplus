@@ -1,0 +1,13 @@
+Options -Indexes
+
+# Make the Authorization header reach PHP (some hosts strip it).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+# Never serve configuration or SQL files.
+<FilesMatch "^(config(\.sample)?\.php|schema\.sql|README\.md)$">
+    Require all denied
+</FilesMatch>
